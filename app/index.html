@@ -7,7 +7,101 @@
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <title>News2Stck - News + Stock Prediction Dashboard</title>
+    <title>News2Market - News + Stock Prediction Dashboard</title>
+
+    <style>
+      /* Stock Prediction Section */
+      .stock-section {
+        margin: 40px 0;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      }
+
+      .stock-section .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: #1e1e2f;
+        text-align: center;
+      }
+
+      .stock-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+      }
+
+      .stock-card {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .stock-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      }
+
+      .stock-icon {
+        font-size: 2rem;
+        color: #007bff;
+        margin-right: 15px;
+        flex-shrink: 0;
+      }
+
+      .stock-content h3 {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+        color: #333333;
+      }
+
+      .stock-content p {
+        font-size: 1rem;
+        color: #555555;
+      }
+
+      /* Feature Impact List Styling */
+      #featureImpactList {
+        list-style-type: disc;
+        padding-left: 20px;
+        margin: 0;
+        font-size: 0.95rem;
+        color: #555555;
+      }
+
+      #featureImpactList li {
+        margin-bottom: 6px;
+        padding: 4px 8px;
+        border-radius: 5px;
+        transition: background 0.2s;
+      }
+
+      #featureImpactList li.positive {
+        background-color: #e0f7ea; /* light green */
+        color: #007a33;
+      }
+
+      #featureImpactList li.negative {
+        background-color: #ffe0e0; /* light red */
+        color: #c70039;
+      }
+
+      @media (max-width: 600px) {
+        .stock-card {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .stock-icon {
+          margin-bottom: 10px;
+        }
+      }
+    </style>
   </head>
   <body>
     <!-- Header Section -->
@@ -140,85 +234,6 @@
 
           </div>
         </section>
-  <style>
-    /* Stock Prediction Section */
-    .stock-section {
-      margin: 40px 0;
-      padding: 20px;
-      background-color: #f9f9f9;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
-
-    .stock-section .section-title {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      color: #1e1e2f;
-      text-align: center;
-    }
-
-    .stock-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .stock-card {
-      display: flex;
-      align-items: center;
-      background-color: #ffffff;
-      padding: 15px 20px;
-      border-radius: 10px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .stock-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-    }
-
-    .stock-icon {
-      font-size: 2rem;
-      color: #007bff;
-      margin-right: 15px;
-      flex-shrink: 0;
-    }
-
-    .stock-content h3 {
-      font-size: 1.1rem;
-      margin-bottom: 5px;
-      color: #333333;
-    }
-
-    .stock-content p {
-      font-size: 1rem;
-      color: #555555;
-    }
-
-    #featureImpactList {
-      list-style-type: disc;
-      padding-left: 20px;
-      margin: 0;
-      font-size: 0.95rem;
-      color: #555555;
-    }
-
-    #featureImpactList li {
-      margin-bottom: 5px;
-    }
-
-    @media (max-width: 600px) {
-      .stock-card {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .stock-icon {
-        margin-bottom: 10px;
-      }
-    }
-  </style>
 
         <!-- Analytics Overview -->
         <section class="analytics-section" id="analyticsSection">
@@ -264,6 +279,36 @@
         <p>Analyzing news and predicting stocks...</p>
       </div>
     </div>
+
+    <!-- JS for Feature Impact -->
+    <script>
+      function updateFeatureImpact(explanation) {
+        const list = document.getElementById('featureImpactList');
+        list.innerHTML = ''; // Clear old items
+
+        if (!explanation || Object.keys(explanation).length === 0) {
+          const li = document.createElement('li');
+          li.textContent = "No explainability data available.";
+          list.appendChild(li);
+          return;
+        }
+
+        for (const [feature, value] of Object.entries(explanation)) {
+          const li = document.createElement('li');
+          li.textContent = `${feature}: ${value.toFixed(4)}`;
+          li.className = value >= 0 ? 'positive' : 'negative';
+          list.appendChild(li);
+        }
+      }
+
+      // Example usage: replace this with real SHAP output from backend
+      const exampleExplanation = {
+        "Market Sentiment": 0.2431,
+        "Volume Change": -0.1345,
+        "Tech News Score": 0.5123
+      };
+      updateFeatureImpact(exampleExplanation);
+    </script>
 
     <script src="script.js"></script>
   </body>

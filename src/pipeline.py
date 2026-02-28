@@ -22,7 +22,7 @@ from .core.result_display import ResultDisplay
 from .finance.stock_data_fetcher import StockDataFetcher
 from .finance.feature_engineering import FeatureEngineer
 from .finance.stock_prediction import StockPredictor
-#from .explainability.shap_explainer import SHAPExplainer
+from .explainability.shap_explainer import SHAPExplainer
 import pandas as pd
 import os
 
@@ -42,7 +42,7 @@ class PipelineOrchestrator:
             ('stock_data_fetch', 'Stock Data Fetching', self._run_stock_data_fetch),
             ('feature_engineering', 'Feature Engineering', self._run_feature_engineering),
             ('stock_prediction', 'Stock Movement Prediction', self._run_stock_prediction),
-            #('explainability', 'Explainable AI Analysis', self._run_explainability),
+            ('explainability', 'Explainable AI Analysis', self._run_explainability),
             ('result_display', 'Result Display', self._run_result_display)
         ]
         
