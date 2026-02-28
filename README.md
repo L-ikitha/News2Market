@@ -1,6 +1,6 @@
 # News2Market 📈📰
 
-![News2Market Landing Page](landing.png)
+![News2Market Landing Page](landingPage.png)
 
 **AI-Driven News Intelligence for Financial Market Prediction**
 
